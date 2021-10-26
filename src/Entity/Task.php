@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\TaskRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TaskRepository::class)
@@ -19,13 +20,14 @@ class Task
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Ce champs est requis.")
      */
-    private $title;
+    private string $title;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $status;
+    private bool $completed = false;
 
     public function getId(): ?int
     {
@@ -44,14 +46,14 @@ class Task
         return $this;
     }
 
-    public function getStatus(): ?bool
+    public function isCompleted(): ?bool
     {
-        return $this->status;
+        return $this->completed;
     }
 
-    public function setStatus(?bool $status): self
+    public function setCompleted(?bool $completed): self
     {
-        $this->status = $status;
+        $this->completed = $completed;
 
         return $this;
     }

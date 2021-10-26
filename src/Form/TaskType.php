@@ -1,12 +1,10 @@
 <?php
-
-
 namespace App\Form;
 
 use App\Entity\Task;
-use Doctrine\DBAL\Types\BooleanType;
-use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,8 +20,8 @@ class TaskType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class)
-            ->add('status', BooleanType::class)
+            ->add('title', TextType::class, ['label' => 'Titre'])
+            ->add('completed', CheckboxType::class, ['label' => 'Tache completée', 'required' => false])
         ;
     }
 

@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Controller;
-use App\Service\taskService;
+
+use App\Service\TaskService;
 
 use App\Entity\Task;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,80 +12,64 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\TaskType;
 
-
+/**
+ * @Route("/task", name="task")
+ */
 class TaskController extends AbstractController
 {
-
-    
-    
-    
-     /**
-     * @Route("/list", name="list")
+    /**
+     * @Route("/", name="_list")
      */
-    public function index(): Response
+    public function index(EntityManagerInterface $em): Response
     {
-        $tasks = $this->getDoctrine()->getRepository(Task::class)->findBy([],
-            ['id' =>'DESC']);
+        $tasks = $em->getRepository(Task::class)->findBy(
+            [],
+            ['id' =>'DESC']
+        );
 
-        return $this->render('index.html.twig',[
-            'tasks' =>$tasks
+        return $this->render('task/list.html.twig', [
+            'tasks' => $tasks
         ]);
     }
 
     /**
-     * @Route("/create", name="createTask", methods={"POST"})
+     * @Route("/create", name="_create", methods={"GET", "POST"})
+     * @Route("/edit/{id}", name="_edit", methods={"GET", "POST"})
      */
-    public function create(taskService $taskService, Request $request, EntityManagerInterface $em)
+    public function edit(Request $request, Task $task = null, TaskService $taskService)
     {
-            $title = trim($request->request->get('title')); 
-            if(empty($title)){
-    
-                return $this->redirectToRoute('list');
-            }
-
+        if ($task === null) {
             $task = new Task();
-            $form = $this->createForm(TaskType::class, $task);
-            $form->handleRequest($request);
-            
-            if ($form->isSubmitted() && $form->isValid()) 
-            {
-                 $taskService->createORupdate($em);
-            }
+            $formAction = $this->generateUrl('task_create');
+        } else {
+            $formAction = $this->generateUrl('task_edit', ['id' => $task->getId()]);
+        }
 
-            return $this->redirectToRoute('list');
-            
-            return $this->render('index.html.twig', [
-                'task' => $task,
-                'Taskform' => $form->createView(),
-            ]);
-    }
-
+        $form = $this->createForm(TaskType::class, $task, [
+            'action' => $formAction
+        ]);
         
-    
+        if ($form->handleRequest($request) && $form->isSubmitted() && $form->isValid()) {
+            $taskService->createORupdate($form->getData());
+            
+            return $this->redirectToRoute('task_list');
+        }
+
+        return $this->render('task/edit.html.twig', [
+            'task' => $task,
+            'Taskform' => $form->createView(),
+        ]);
+    }
 
     /**
-     * @Route("switchStatus/{id}", name="switchStatus")
-     */
-    public function switchStatus(taskService $taskService): Response
-    {
-        $taskService->StatusTask();
-      
-
-        return $this->redirectToRoute('list');
-    }
-
-
-     /**
-     * @Route("/delete/{id}", name="deleteTask", methods="DELETE")
+     * @Route("/delete/{id}", name="_delete", methods="POST")
      */
     public function delete(Request $request, Task $task, taskService $taskService): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$task->getId(), $request->request->get('_token'))) {
-            
-            $taskService->deleteTask(); 
+        if ($this->isCsrfTokenValid('delete'. $task->getId(), $request->request->get('_token'))) {
+            $taskService->deleteTask($task);
         }
 
-        return $this->redirectToRoute('list');
-
+        return $this->redirectToRoute('task_list');
     }
-} 
+}

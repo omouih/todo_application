@@ -1,43 +1,28 @@
 <?php
 
 namespace App\Service;
+
 use App\Entity\Task;
 use Doctrine\ORM\EntityManagerInterface;
 
-
-
-class taskService{
-
-    
-    private $em;
+class TaskService
+{
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
-        
     }
 
-    public function createORupdate()
+    public function createOrUpdate(Task $task)
     {
-        $task = new Task;
-        $task->setTitle($title);
         $this->em->persist($task);
-        $this->em->flush(); 
-                     
-    }
-
-    public function StatusTask($id){
-        $task = $this->em->getRepository(Task::class)->find($id);
-
-        $task->setStatus( ! $task->getStatus() );
         $this->em->flush();
     }
-    public function deleteTask(Task $task){
-        
+
+    public function deleteTask(Task $task)
+    {
         $this->em->remove($task);
         $this->em->flush();
     }
-
-
-
 }

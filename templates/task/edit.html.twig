@@ -1,0 +1,15 @@
+<div id="myDIV" class="header">
+  <h2 style="margin:5px">My To Do List</h2>
+    {{ form_start(Taskform) }}
+    <div class="form-group">
+        {{ form_row(Taskform.title, {attr: {'placeholder': 'Titre'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(Taskform.completed) }}
+    </div>
+    
+    <div class="form-group">
+        <button  onclick="newElement()" type="submit" class="addBtn">Ajouter une tache</button>
+    </div>
+    {{ form_end(Taskform) }}
+</div>
