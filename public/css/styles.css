@@ -1,0 +1,112 @@
+body {
+    margin: 2;
+    min-width: 50px;
+    font-family: "Open Sans", sans-serif;
+    line-height: 1;
+    padding-top: 50px;
+    padding-right: 30px;
+    padding-bottom: 60px;
+    padding-left: 90px;
+  }
+
+  
+.default {color: rgb(59, 50, 50);}
+
+
+  /* Include the padding and border in an element's total width and height */
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Remove margins and padding from the list */
+  ul {
+    margin-top: 100px;
+  margin-bottom: 100px;
+  margin-right: 150px;
+  margin-left: 80px;
+  }
+
+  /* Style the list items */
+  ul li {
+    cursor: pointer;
+    position: relative;
+    padding: 12px 8px 12px 60px;
+    list-style-type: none;
+    background: #f1f1f18f;
+    font-size: 18px;
+    transition: 0.2s;
+    
+    /* make the list items unselectable */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* Set all odd list items to a different color (zebra-stripes) */
+  ul li:nth-child(odd) {
+    background: #f0eded;
+  }
+
+  /* Darker background-color on hover */
+  ul li:hover {
+    background: srgb(236, 234, 234);
+  }
+
+  /* When clicked on, add a background color and strike out text */
+  ul li .checked {
+    background: rgb(66, 65, 65);
+    color: rgb(207, 200, 200);
+    text-decoration: line-through;
+  }
+
+  /* Add a "checked" mark when clicked on */
+  ul li .checked:before {
+    content: '';
+    position: absolute;
+    border-color: rgb(219, 206, 206);
+    border-style: solid;
+    border-width: 0 2px 2px 0;
+    top: 5px;
+    left: 16px;
+    transform: rotate(45deg);
+    height: 15px;
+    width: 7px;
+  }
+
+
+
+  /* Style the header */
+  .header {
+    background-color:#f1f1f18f;
+    padding: 30px 40px;
+    color: #009688a6;
+    text-align: center;
+  }
+
+  /* Clear floats after the header */
+  .header:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  /* Style the input */
+  input {
+    margin: 10;
+    border: none;
+    border-radius: 0;
+    width: 75%;
+    padding: 10px;
+    float: left;
+    font-size: 16px;
+  }
+
+  
+  
+
+  
+
+  
+
+

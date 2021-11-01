@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Service\TaskService;
-
 use App\Entity\Task;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,7 +23,7 @@ class TaskController extends AbstractController
     {
         $tasks = $em->getRepository(Task::class)->findBy(
             [],
-            ['id' =>'DESC']
+            ['id' => 'DESC']
         );
 
         return $this->render('task/list.html.twig', [
@@ -48,10 +47,10 @@ class TaskController extends AbstractController
         $form = $this->createForm(TaskType::class, $task, [
             'action' => $formAction
         ]);
-        
+
         if ($form->handleRequest($request) && $form->isSubmitted() && $form->isValid()) {
             $taskService->createORupdate($form->getData());
-            
+
             return $this->redirectToRoute('task_list');
         }
 
@@ -66,7 +65,7 @@ class TaskController extends AbstractController
      */
     public function delete(Request $request, Task $task, taskService $taskService): Response
     {
-        if ($this->isCsrfTokenValid('delete'. $task->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $task->getId(), $request->request->get('_token'))) {
             $taskService->deleteTask($task);
         }
 

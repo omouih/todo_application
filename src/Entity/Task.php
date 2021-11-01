@@ -25,7 +25,7 @@ class Task
     private string $title;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean")
      */
     private bool $completed = false;
 
